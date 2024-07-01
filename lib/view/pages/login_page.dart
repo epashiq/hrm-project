@@ -16,7 +16,7 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Color(0XFFfafafaff),
+      backgroundColor: const Color(0XFFfafafaff),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -29,14 +29,14 @@ class LoginPage extends ConsumerWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 7,
-                  offset: Offset(0, 5),
+                  offset: const Offset(0, 5),
                 ),
               ]),
               child: TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
                     filled: true,
-                    fillColor: Color(0XFFffffffff),
+                    fillColor: const Color(0XFFffffffff),
                     prefixIcon: const Icon(Icons.mail),
                     hintText: 'email',
                     border: OutlineInputBorder(
@@ -88,7 +88,6 @@ class LoginPage extends ConsumerWidget {
                 },
                 emailController: emailController,
                 passController: passController),
-            
             const SizedBox(
               height: 20,
             ),
@@ -102,16 +101,18 @@ class LoginPage extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            ButtonWidget(
-                btnText: 'Sign Up',
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpPage(),
-                      ));
-                })
-           
+            Align(
+              alignment: Alignment.centerRight,
+              child: ButtonWidget(
+                  btnText: 'Sign Up',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpPage(),
+                        ));
+                  }),
+            )
           ],
         ),
       ),

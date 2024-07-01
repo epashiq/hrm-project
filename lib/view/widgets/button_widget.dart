@@ -10,14 +10,14 @@ class ButtonWidget extends ConsumerWidget {
   final TextEditingController? passController;
 
   const ButtonWidget({
-    Key? key,
+    super.key,
     required this.btnText,
     required this.onTap,
     this.width,
     this.height,
     this.emailController,
     this.passController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
