@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "7529257453",
+    "project_id": "hrm-project-f4310",
+    "storage_bucket": "hrm-project-f4310.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7529257453:android:e470c97645e5468fff6fe4",
+        "android_client_info": {
+          "package_name": "com.example.hrm_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiCSIOBhE_Wn6ZrK1eLa7nX8OoHdZzYaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
