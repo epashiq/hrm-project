@@ -1,9 +1,9 @@
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/view/pages/home_page.dart';
+import 'package:hrm_project/view/utils/snackbar_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_provider.g.dart';
 
@@ -22,7 +22,7 @@ class Auth extends _$Auth {
             builder: (context) => const HomePage(),
           ));
     } catch (e) {
-      log(e.toString());
+      SnackBarUtils.showMessage('enter a valid mail');
     }
   }
 
@@ -35,6 +35,8 @@ class Auth extends _$Auth {
           .collection('auth')
           .doc(email)
           .set({email: email, password: password});
-    } catch (e) {}
+    } catch (e) {
+      SnackBarUtils.showMessage('enter a valid mail');
+    }
   }
 }
