@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hrm_project/controller/provider/auth_provider.dart';
+import 'package:hrm_project/view/pages/home_page.dart';
 import 'package:hrm_project/view/pages/sign_up_page.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -43,6 +44,11 @@ class LoginPage extends ConsumerWidget {
                 onPressed: () {
                   ref.read(authProvider.notifier).loginWithEmailAndPassword(
                       emailController.text, passController.text, context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ));
                 },
                 child: const Text('submit')),
             const SizedBox(

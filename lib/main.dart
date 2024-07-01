@@ -13,6 +13,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
   const MyApp({super.key});
 
   @override
@@ -20,11 +22,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  LoginPage(),
+      home: LoginPage(),
     );
   }
 }
