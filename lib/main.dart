@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hrm_project/firebase_options.dart';
 import 'package:hrm_project/view/pages/add_employee_page.dart';
-import 'package:hrm_project/view/pages/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AddEmployeePage(),
+      home: const AddEmployeePage(),
     );
   }
 }

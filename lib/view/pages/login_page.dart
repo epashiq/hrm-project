@@ -103,7 +103,7 @@ class LoginPage extends ConsumerWidget {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: ButtonWidget(
+              child: ButtonWidget(width: 100,
                   btnText: 'Sign Up',
                   onTap: () {
                     Navigator.push(

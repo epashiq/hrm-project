@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ButtonWidget extends ConsumerWidget {
   final String btnText;
   final void Function() onTap;
-  final double? width;
+  final double width;
   final double? height;
   final TextEditingController? emailController;
   final TextEditingController? passController;
@@ -13,7 +13,7 @@ class ButtonWidget extends ConsumerWidget {
     super.key,
     required this.btnText,
     required this.onTap,
-    this.width,
+    required this.width,
     this.height,
     this.emailController,
     this.passController,

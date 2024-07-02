@@ -1,6 +1,7 @@
 import 'package:country_state_city_pro/country_state_city_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/controller/provider/add_employee_provider.dart';
+import 'package:hrm_project/view/widgets/button_widget.dart';
 
 class AddEmployeePage extends StatefulWidget {
   const AddEmployeePage({super.key});
@@ -18,7 +19,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
 
   @override
   Widget build(BuildContext context) {
-    final dateProvider = AddEmployeeProvider();
+    final addEmployeeProvider = AddEmployeeProvider();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Employee'),
@@ -33,35 +34,39 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                 radius: 50,
               ),
               TextFormField(
+                controller: addEmployeeProvider.nameController,
                 decoration: const InputDecoration(
                     hintText: 'Employee Name', prefixIcon: Icon(Icons.person)),
               ),
               TextFormField(
+                controller: addEmployeeProvider.emailController,
                 decoration: const InputDecoration(
                     hintText: 'Email', prefixIcon: Icon(Icons.mail)),
               ),
               TextFormField(
+                controller: addEmployeeProvider.phoneController,
                 decoration: const InputDecoration(
                     hintText: 'Phone', prefixIcon: Icon(Icons.call)),
               ),
               TextFormField(
+                controller: addEmployeeProvider.addressController,
                 decoration: const InputDecoration(
                     hintText: 'Address', prefixIcon: Icon(Icons.location_city)),
               ),
               TextFormField(
-                controller: dateProvider.dateController,
+                controller: addEmployeeProvider.dateController,
                 onTap: () {
-                  dateProvider.setDate(context);
+                  addEmployeeProvider.setDob(context);
                 },
                 decoration: const InputDecoration(
                     hintText: 'Date Of Birth',
                     prefixIcon: Icon(Icons.calendar_month)),
               ),
               TextFormField(
-                controller: dateProvider.dateController,
+                controller: addEmployeeProvider.dateController,
                 onTap: () {
                   setState(() {
-                    dateProvider.setDate(context);
+                    addEmployeeProvider.setJoiningDate(context);
                   });
                 },
                 decoration: const InputDecoration(
@@ -80,7 +85,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       border: const OutlineInputBorder(
                           borderSide: BorderSide.none))),
               DropdownButtonFormField(
-                  value: deptValue,
+                  value: addEmployeeProvider.department,
                   hint: const Text('Select Department'),
                   items: ['IT', 'Finance', 'Sales', 'Accounting', 'Marketing']
                       .map<DropdownMenuItem<String>>(
@@ -95,7 +100,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                     });
                   }),
               DropdownButtonFormField(
-                  value: desVAlue,
+                  value: addEmployeeProvider.designation,
                   hint: const Text('Select Designation'),
                   items: [
                     'Developer',
@@ -115,6 +120,16 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       desVAlue = value!;
                     });
                   }),
+              const SizedBox(
+                height: 20,
+              ),
+              ButtonWidget(
+                btnText: 'Add',
+                onTap: () {
+                  addEmployeeProvider.addEmployee(context);
+                },
+                width: MediaQuery.sizeOf(context).width,
+              )
             ],
           ),
         ),
