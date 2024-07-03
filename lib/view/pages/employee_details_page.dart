@@ -24,11 +24,11 @@ class _EmployeeDetailsPageState extends State<EmployeeDetailsPage> {
         future: addEmployeeProvider.getEmployee('employeeId'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: LinearProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('Employee not found'));
+            return const Center(child: Text('Employee not found'));
           } else {
             EmployeeModel employee = snapshot.data!;
             return SingleChildScrollView(
@@ -42,6 +42,13 @@ class _EmployeeDetailsPageState extends State<EmployeeDetailsPage> {
                   Text('Email: ${employee.email}'),
                   Text('Phone: ${employee.phone}'),
                   Text('Address: ${employee.address}'),
+                  Text('Dob: ${employee.dob}'),
+                  Text('Joining Date: ${employee.joiningDate}'),
+                  Text(' Country: ${employee.country}'),
+                  Text(' city: ${employee.city}'),
+                  Text(' State: ${employee.address}'),
+                  Text('Department: ${employee.department}'),
+                  Text('designation: ${employee.designation}'),
                 ],
               ),
             );
