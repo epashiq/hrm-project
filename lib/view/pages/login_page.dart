@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hrm_project/controller/provider/auth_provider.dart';
 import 'package:hrm_project/view/pages/home_page.dart';
 import 'package:hrm_project/view/pages/sign_up_page.dart';
 import 'package:hrm_project/view/widgets/button_widget.dart';
 import 'package:hrm_project/view/widgets/elevated_button_widget.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final emailController = TextEditingController();
@@ -14,7 +14,8 @@ class LoginPage extends ConsumerWidget {
   final passController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of(context);
     return Scaffold(
       backgroundColor: const Color(0XFFfafafaff),
       body: Padding(
@@ -78,8 +79,8 @@ class LoginPage extends ConsumerWidget {
             ElevatedButtonWidget(
                 btnText: 'Login',
                 onTap: () {
-                  ref.read(authProvider.notifier).loginWithEmailAndPassword(
-                      emailController.text, passController.text, context);
+                  authProvider.loginWithEmailAndPassword(emailController.text, passController.text, context);
+                  
                   Navigator.push(
                       context,
                       MaterialPageRoute(

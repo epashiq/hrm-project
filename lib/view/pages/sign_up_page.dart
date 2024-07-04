@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hrm_project/controller/provider/auth_provider.dart';
 import 'package:hrm_project/view/pages/login_page.dart';
 import 'package:hrm_project/view/widgets/elevated_button_widget.dart';
+import 'package:provider/provider.dart';
 
-class SignUpPage extends ConsumerWidget {
+class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
   final emailController = TextEditingController();
@@ -13,7 +13,11 @@ class SignUpPage extends ConsumerWidget {
   final confirmPassController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(
+    BuildContext context,
+  ) {
+    AuthProvider authProvider = Provider.of(context);
+
     return Scaffold(
       backgroundColor: Color(0XFFfafafaff),
       body: Padding(
@@ -80,8 +84,9 @@ class SignUpPage extends ConsumerWidget {
             ElevatedButtonWidget(
                 btnText: 'Sign Up',
                 onTap: () {
-                  ref.read(authProvider.notifier).signInWithEmailAndPassword(
+                  authProvider.signInWithEmailAndPassword(
                       emailController.text, passController.text, context);
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(

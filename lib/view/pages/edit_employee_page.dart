@@ -6,19 +6,24 @@ import 'package:hrm_project/view/pages/employee_details_page.dart';
 import 'package:hrm_project/view/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
-class AddEmployeePage extends StatefulWidget {
-  const AddEmployeePage({super.key});
+class EditEmployeePage extends StatefulWidget {
+  const EditEmployeePage({super.key});
 
   @override
-  State<AddEmployeePage> createState() => _AddEmployeePageState();
+  State<EditEmployeePage> createState() => _EditEmployeePageState();
 }
 
-class _AddEmployeePageState extends State<AddEmployeePage> {
+class _EditEmployeePageState extends State<EditEmployeePage> {
   String? deptValue;
   String? desValue;
   final countryProvider = TextEditingController();
   final cityProvider = TextEditingController();
   final stateProvider = TextEditingController();
+  @override
+  void initState() {
+    AddEmployeeProvider().getEmployee(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                 ),
               ),
               DropdownButtonFormField(
-                  value: addEmployeeProvider.department,
+                  value: deptValue,
                   hint: const Text('Select Department'),
                   items: ['IT', 'Finance', 'Sales', 'Accounting', 'Marketing']
                       .map<DropdownMenuItem<String>>(
@@ -103,7 +108,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                     });
                   }),
               DropdownButtonFormField(
-                  value: addEmployeeProvider.designation,
+                  value: desValue,
                   hint: const Text('Select Designation'),
                   items: [
                     'Developer',
@@ -128,9 +133,9 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                 height: 20,
               ),
               ButtonWidget(
-                btnText: 'Add',
+                btnText: 'Edit',
                 onTap: () {
-                  addEmployeeProvider.addEmployee();
+                  addEmployeeProvider.editEmployee();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
