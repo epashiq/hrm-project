@@ -1,4 +1,3 @@
-// import 'package:country_state_city_pro/country_state_city_pro.dart';
 import 'package:country_state_city_pro/country_state_city_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/controller/provider/add_employee_provider.dart';
@@ -7,7 +6,9 @@ import 'package:hrm_project/view/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
 class EditEmployeePage extends StatefulWidget {
-  const EditEmployeePage({super.key});
+  final String documentId;
+
+  EditEmployeePage({Key? key, required this.documentId}) : super(key: key);
 
   @override
   State<EditEmployeePage> createState() => _EditEmployeePageState();
@@ -16,13 +17,14 @@ class EditEmployeePage extends StatefulWidget {
 class _EditEmployeePageState extends State<EditEmployeePage> {
   String? deptValue;
   String? desValue;
-  final countryProvider = TextEditingController();
-  final cityProvider = TextEditingController();
-  final stateProvider = TextEditingController();
+
   @override
   void initState() {
-    AddEmployeeProvider().getEmployee(context);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AddEmployeeProvider>(context, listen: false)
+          .getEmployee(widget.documentId);
+    });
   }
 
   @override
@@ -30,7 +32,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     final addEmployeeProvider = Provider.of<AddEmployeeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Employee'),
+        title: const Text('Edit Employee'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -92,7 +94,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                 ),
               ),
               DropdownButtonFormField(
-                  value: deptValue,
+                  value: addEmployeeProvider.department,
                   hint: const Text('Select Department'),
                   items: ['IT', 'Finance', 'Sales', 'Accounting', 'Marketing']
                       .map<DropdownMenuItem<String>>(
@@ -108,7 +110,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                     });
                   }),
               DropdownButtonFormField(
-                  value: desValue,
+                  value: addEmployeeProvider.designation,
                   hint: const Text('Select Designation'),
                   items: [
                     'Developer',
@@ -137,22 +139,25 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                 onTap: () {
                   addEmployeeProvider.editEmployee();
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EmployeeDetailsPage(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EmployeeDetailsPage(),
+                    ),
+                  );
                 },
                 width: MediaQuery.sizeOf(context).width,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmployeeDetailsPage(),
-                        ));
-                  },
-                  child: Text('view'))
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EmployeeDetailsPage(),
+                    ),
+                  );
+                },
+                child: const Text('View'),
+              )
             ],
           ),
         ),

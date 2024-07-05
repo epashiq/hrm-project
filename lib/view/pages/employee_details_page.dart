@@ -134,7 +134,10 @@ class EmployeeDetailsPage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const EditEmployeePage(),
+                                              EditEmployeePage(
+                                            documentId:
+                                                snapshot.data!.docs[index].id,
+                                          ),
                                         ));
                                   },
                                   icon: Icon(
@@ -143,10 +146,11 @@ class EmployeeDetailsPage extends StatelessWidget {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    AddEmployeeProvider()
-                                        .deleteEmployee(context);
+                                    AddEmployeeProvider().deleteEmployee(
+                                        context, snapshot.data!.docs[index].id);
                                   },
-                                  icon: Icon(Icons.delete, color: Colors.white))
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.white))
                             ],
                           )
                         ],

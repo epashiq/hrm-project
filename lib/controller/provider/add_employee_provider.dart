@@ -206,29 +206,28 @@ class AddEmployeeProvider with ChangeNotifier {
   //   await docRef.set(employee.toJson());
   //   notifyListeners();
   // }
-  Future<EmployeeModel?> getEmployee(BuildContext context) async {
+  Future<EmployeeModel?> getEmployee(String employeeId) async {
     final CollectionReference employeesCollection =
         FirebaseFirestore.instance.collection('employees');
     try {
-      DocumentSnapshot doc =
-          await employeesCollection.doc(emailController.text).get();
+      DocumentSnapshot doc = await employeesCollection.doc(employeeId).get();
 
       if (doc.exists) {
-        var data = doc.data() as Map<String, dynamic>;
         var employee =
             EmployeeModel.fromJson(doc.data() as Map<String, dynamic>);
-        var provider = Provider.of<AddEmployeeProvider>(context, listen: false);
-        provider.nameController.text = employee.name;
-        provider.emailController.text = employee.email;
-        provider.phoneController.text = employee.phone;
-        provider.addressController.text = employee.address;
-        provider.dobController.text = employee.dob.toString();
-        provider.joiningDateController.text = employee.joiningDate.toString();
-        provider.countryController.text = employee.country;
-        provider.cityController.text = employee.city;
-        provider.stateController.text = employee.state;
-        provider.department = employee.department;
-        provider.designation = employee.designation;
+        nameController.text = employee.name;
+        emailController.text = employee.email;
+        phoneController.text = employee.phone;
+        addressController.text = employee.address;
+        dobController.text = employee.dob.toString();
+        joiningDateController.text = employee.joiningDate.toString();
+        countryController.text = employee.country;
+        cityController.text = employee.city;
+        stateController.text = employee.state;
+        department = employee.department;
+        designation = employee.designation;
+        notifyListeners();
+        return employee;
       } else {
         log('Employee not found');
         return null;
@@ -276,13 +275,14 @@ class AddEmployeeProvider with ChangeNotifier {
     } catch (e) {
       SnackBarUtils.showMessage('failed');
     }
+    notifyListeners();
   }
 
-  Future<void> deleteEmployee(BuildContext context) async {
+  Future<void> deleteEmployee(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance
           .collection('Employee')
-          .doc(emailController.text)
+          .doc(documentId)
           .delete();
     } catch (e) {
       log(e.toString());
