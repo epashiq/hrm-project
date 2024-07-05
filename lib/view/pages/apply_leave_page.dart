@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_project/controller/provider/apply_leave_provider.dart';
+import 'package:hrm_project/view/pages/leave_status_page.dart';
 import 'package:hrm_project/view/widgets/button_widget.dart';
 
 class ApplyLeavePage extends StatefulWidget {
@@ -28,7 +29,6 @@ class _ApplyLeavePageState extends State<ApplyLeavePage> {
           child: Column(
             children: [
               DropdownButtonFormField(
-                
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -148,6 +148,11 @@ class _ApplyLeavePageState extends State<ApplyLeavePage> {
                   btnText: 'Apply Leave',
                   onTap: () {
                     applyLeaveProvider.addLeave();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LeaveStatusPage(),
+                        ));
                   },
                   width: 150)
             ],
