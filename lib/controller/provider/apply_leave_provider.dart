@@ -47,6 +47,7 @@ class ApplyLeaveProvider with ChangeNotifier {
           .collection('Leave')
           .doc(noOfController.text)
           .set({
+        'leave status': leaveValue,
         'apply From': applyFromController.text,
         'apply To': applyToController.text,
         'reason': reasonToController.text,
