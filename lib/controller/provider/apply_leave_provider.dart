@@ -56,5 +56,6 @@ class ApplyLeaveProvider with ChangeNotifier {
     } catch (e) {
       SnackBarUtils.showMessage('leave added failed');
     }
+    notifyListeners();
   }
 }

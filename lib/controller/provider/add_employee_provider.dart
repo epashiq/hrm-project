@@ -112,7 +112,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/model/employee_model.dart';
 import 'package:hrm_project/view/utils/snackbar_utils.dart';
-import 'package:provider/provider.dart';
 
 class AddEmployeeProvider with ChangeNotifier {
   TextEditingController dateController = TextEditingController();
