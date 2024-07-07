@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrm_project/controller/provider/add_holiday_provider.dart';
 import 'package:hrm_project/view/widgets/button_widget.dart';
 
 class AddHolidayPage extends StatefulWidget {
@@ -9,9 +10,7 @@ class AddHolidayPage extends StatefulWidget {
 }
 
 class _AddHolidayPageState extends State<AddHolidayPage> {
-  TextEditingController holidayController = TextEditingController();
-  TextEditingController holidayNameController = TextEditingController();
-  TextEditingController descreptionController = TextEditingController();
+  final addHolidayProvider = AddHolidayProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +37,10 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
               height: 10,
             ),
             TextFormField(
-              onTap: () {},
-              controller: holidayController,
+              onTap: () {
+                addHolidayProvider.setHolidayDate(context);
+              },
+              controller: addHolidayProvider.holidayController,
               decoration: InputDecoration(
                   hintText: 'Please Select Date',
                   prefixIcon: const Icon(Icons.calendar_month),
@@ -61,7 +62,7 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
               height: 10,
             ),
             TextFormField(
-              controller: holidayNameController,
+              controller: addHolidayProvider.holidayNameController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -81,7 +82,7 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
               height: 10,
             ),
             TextFormField(
-              controller: holidayNameController,
+              controller: addHolidayProvider.descreptionController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -90,7 +91,12 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
             const SizedBox(
               height: 30,
             ),
-            ButtonWidget(btnText: 'Add Holiday', onTap: () {}, width: 150)
+            ButtonWidget(
+                btnText: 'Add Holiday',
+                onTap: () {
+                  addHolidayProvider.addHoliday();
+                },
+                width: 150)
           ],
         ),
       ),
