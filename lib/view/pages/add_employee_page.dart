@@ -147,7 +147,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           builder: (context) => const EmployeeDetailsPage(),
                         ));
                   },
-                  child: Text('view'))
+                  child: const Text('view'))
             ],
           ),
         ),

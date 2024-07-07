@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class EditEmployeePage extends StatefulWidget {
   final String documentId;
 
-  EditEmployeePage({Key? key, required this.documentId}) : super(key: key);
+  const EditEmployeePage({Key? key, required this.documentId}) : super(key: key);
 
   @override
   State<EditEmployeePage> createState() => _EditEmployeePageState();

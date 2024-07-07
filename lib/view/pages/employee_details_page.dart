@@ -40,7 +40,7 @@ class EmployeeDetailsPage extends StatelessWidget {
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
 
                   return Card(
-                    color: (Color(0xFF313247)),
+                    color: (const Color(0xFF313247)),
                     margin: const EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
