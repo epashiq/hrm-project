@@ -6,7 +6,7 @@ class HolidayModel with _$HolidayModel{
   factory HolidayModel({
      required String id,
     required DateTime holidayDate,
-    required DateTime holidayName,
+    required String holidayName,
     required String descreption,
   }) = _HolidayModel;
    factory HolidayModel.fromJson(Map<String, dynamic> json) =>

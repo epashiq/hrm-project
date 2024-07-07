@@ -22,7 +22,7 @@ HolidayModel _$HolidayModelFromJson(Map<String, dynamic> json) {
 mixin _$HolidayModel {
   String get id => throw _privateConstructorUsedError;
   DateTime get holidayDate => throw _privateConstructorUsedError;
-  DateTime get holidayName => throw _privateConstructorUsedError;
+  String get holidayName => throw _privateConstructorUsedError;
   String get descreption => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $HolidayModelCopyWith<$Res> {
   $Res call(
       {String id,
       DateTime holidayDate,
-      DateTime holidayName,
+      String holidayName,
       String descreption});
 }
 
@@ -74,7 +74,7 @@ class _$HolidayModelCopyWithImpl<$Res, $Val extends HolidayModel>
       holidayName: null == holidayName
           ? _value.holidayName
           : holidayName // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       descreption: null == descreption
           ? _value.descreption
           : descreption // ignore: cast_nullable_to_non_nullable
@@ -94,7 +94,7 @@ abstract class _$$HolidayModelImplCopyWith<$Res>
   $Res call(
       {String id,
       DateTime holidayDate,
-      DateTime holidayName,
+      String holidayName,
       String descreption});
 }
 
@@ -126,7 +126,7 @@ class __$$HolidayModelImplCopyWithImpl<$Res>
       holidayName: null == holidayName
           ? _value.holidayName
           : holidayName // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       descreption: null == descreption
           ? _value.descreption
           : descreption // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class _$HolidayModelImpl implements _HolidayModel {
   @override
   final DateTime holidayDate;
   @override
-  final DateTime holidayName;
+  final String holidayName;
   @override
   final String descreption;
 
@@ -198,7 +198,7 @@ abstract class _HolidayModel implements HolidayModel {
   factory _HolidayModel(
       {required final String id,
       required final DateTime holidayDate,
-      required final DateTime holidayName,
+      required final String holidayName,
       required final String descreption}) = _$HolidayModelImpl;
 
   factory _HolidayModel.fromJson(Map<String, dynamic> json) =
@@ -209,7 +209,7 @@ abstract class _HolidayModel implements HolidayModel {
   @override
   DateTime get holidayDate;
   @override
-  DateTime get holidayName;
+  String get holidayName;
   @override
   String get descreption;
   @override

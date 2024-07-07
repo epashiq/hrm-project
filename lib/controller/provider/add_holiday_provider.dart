@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hrm_project/model/holiday_model.dart';
 import 'package:hrm_project/view/utils/snackbar_utils.dart';
 
 class AddHolidayProvider with ChangeNotifier {
@@ -37,6 +40,29 @@ class AddHolidayProvider with ChangeNotifier {
       SnackBarUtils.showMessage('Add holiday succesfully');
     } catch (e) {
       SnackBarUtils.showMessage('Add holiday failed');
+    }
+  }
+
+  Future<HolidayModel?> getHoliday(String holidayId) async {
+    final CollectionReference holidayCollection =
+        FirebaseFirestore.instance.collection('Holiday');
+    try {
+      DocumentSnapshot document = await holidayCollection.doc(holidayId).get();
+      if (document.exists) {
+        var holiday =
+            HolidayModel.fromJson(document.data() as Map<String, dynamic>);
+        holidayController.text = holiday.holidayDate.toString();
+        holidayNameController.text = holiday.holidayName;
+        descreptionController.text = holiday.descreption;
+        notifyListeners();
+        return holiday;
+      } else {
+        log('leave not found');
+        return null;
+      }
+    } catch (e) {
+      SnackBarUtils.showMessage('failed');
+      return null;
     }
   }
 }
