@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_project/controller/provider/add_holiday_provider.dart';
+import 'package:hrm_project/view/pages/holiday_page.dart';
 import 'package:hrm_project/view/widgets/button_widget.dart';
 
 class AddHolidayPage extends StatefulWidget {
@@ -95,6 +96,11 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
                 btnText: 'Add Holiday',
                 onTap: () {
                   addHolidayProvider.addHoliday();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HolidayPage(),
+                      ));
                 },
                 width: 150)
           ],
