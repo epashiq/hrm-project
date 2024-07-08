@@ -30,7 +30,7 @@ class _AddHolidayPageState extends State<AddHolidayPage> {
             const Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Leave From Date',
+                'Holiday Date',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),

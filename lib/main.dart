@@ -5,6 +5,8 @@ import 'package:hrm_project/controller/provider/apply_leave_provider.dart';
 import 'package:hrm_project/controller/provider/auth_provider.dart';
 import 'package:hrm_project/firebase_options.dart';
 import 'package:hrm_project/view/pages/add_holiday_page.dart';
+import 'package:hrm_project/view/pages/apply_leave_page.dart';
+import 'package:hrm_project/view/pages/attendence_page.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const AddHolidayPage(),
+        home: const AttendencePage(),
       ),
     );
   }
