@@ -47,6 +47,11 @@ class EmployeeDetailsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const Center(
+                            child: CircleAvatar(
+                              radius: 50,
+                            ),
+                          ),
                           Text(
                             'Name: ${data['name'] ?? 'N/A'}',
                             style: const TextStyle(

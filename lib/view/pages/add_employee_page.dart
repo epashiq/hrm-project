@@ -33,8 +33,20 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const CircleAvatar(
-                radius: 50,
+              InkWell(
+                onTap: () {
+                  addEmployeeProvider.showImagePickerOptions(context);
+                },
+                child: CircleAvatar(
+                  radius: 50,
+                  child: addEmployeeProvider.photo != null
+                      ? ClipRRect(
+                          child: Image.file(addEmployeeProvider.photo!),
+                        )
+                      : Container(
+                          child: Icon(Icons.camera),
+                        ),
+                ),
               ),
               TextFormField(
                 controller: addEmployeeProvider.nameController,
@@ -130,6 +142,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               ButtonWidget(
                 btnText: 'Add',
                 onTap: () {
+                  addEmployeeProvider.uploadImage();
                   addEmployeeProvider.addEmployee();
                   Navigator.push(
                       context,

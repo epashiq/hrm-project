@@ -1,117 +1,13 @@
-// import 'dart:developer';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:hrm_project/model/employee_model.dart';
-// import 'package:hrm_project/view/utils/snackbar_utils.dart';
-
-// class AddEmployeeProvider with ChangeNotifier {
-//   TextEditingController dateController = TextEditingController();
-//   TextEditingController nameController = TextEditingController();
-//   TextEditingController emailController = TextEditingController();
-//   TextEditingController phoneController = TextEditingController();
-//   TextEditingController addressController = TextEditingController();
-//   TextEditingController dobController = TextEditingController();
-//   TextEditingController countryController = TextEditingController();
-//   TextEditingController stateController = TextEditingController();
-//   TextEditingController cityController = TextEditingController();
-//   String? department;
-//   String? designation;
-
-//   Future<void> setDob(BuildContext context) async {
-//     final DateTime currentDate = DateTime.now();
-//     final DateTime? selectedDate = await showDatePicker(
-//         context: context,
-//         firstDate: DateTime(currentDate.year - 10),
-//         lastDate: currentDate,
-//         initialDate: currentDate);
-//     if (selectedDate != null) {
-//       dobController.text = formatDate(selectedDate);
-//     }
-//     notifyListeners();
-//   }
-
-//   Future<void> setJoiningDate(BuildContext context) async {
-//     final DateTime currentDate = DateTime.now();
-//     final DateTime? selectedDate = await showDatePicker(
-//         context: context,
-//         firstDate: DateTime(currentDate.year - 10),
-//         lastDate: currentDate,
-//         initialDate: currentDate);
-//     if (selectedDate != null) {
-//       dateController.text = formatDate(selectedDate);
-//     }
-//     notifyListeners();
-//   }
-
-//   String formatDate(DateTime date) {
-//     return '${date.day}-${date.month}-${date.year}';
-//   }
-
-//   Future<void> addEmployee() async {
-//     try {
-//       await FirebaseFirestore.instance
-//           .collection('Employee')
-//           .doc(emailController.text)
-//           .set({
-//         'name': nameController.text,
-//         'email': emailController.text,
-//         'phone': phoneController.text,
-//         'address': addressController.text,
-//         'Date Of Birth': dobController.text,
-//         'country': countryController.text, // Fixed
-//         'state': stateController.text, // Fixed
-//         'city': cityController.text, // Fixed
-//         'department': department,
-//         'designation': designation,
-//       });
-//       SnackBarUtils.showMessage('Employee added successfully!');
-//     } catch (e) {
-//       log(e.toString());
-//       SnackBarUtils.showMessage('Failed to add employee: ${e.toString()}');
-//     }
-//     notifyListeners();
-//     clearForm();
-//   }
-
-//   void clearForm() {
-//     nameController.clear();
-//     emailController.clear();
-//     phoneController.clear();
-//     addressController.clear();
-//     dobController.clear();
-//     dateController.clear();
-//     countryController.clear();
-//     stateController.clear();
-//     cityController.clear();
-//     department = null;
-//     designation = null;
-//     notifyListeners();
-//   }
-
-//   Future<EmployeeModel?> getEmployee(String employeeId) async {
-//     final CollectionReference employeesCollection =
-//         FirebaseFirestore.instance.collection('employees');
-//     try {
-//       DocumentSnapshot doc = await employeesCollection.doc(employeeId).get();
-
-//       if (doc.exists) {
-//         return EmployeeModel.fromJson(doc.data() as Map<String, dynamic>);
-//       } else {
-//         log('Employee not found');
-//         return null;
-//       }
-//     } catch (e) {
-//       log('Error fetching employee: $e');
-//       return null;
-//     }
-//   }
-// }
-
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/model/employee_model.dart';
 import 'package:hrm_project/view/utils/snackbar_utils.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class AddEmployeeProvider with ChangeNotifier {
   TextEditingController dateController = TextEditingController();
@@ -126,6 +22,10 @@ class AddEmployeeProvider with ChangeNotifier {
   TextEditingController joiningDateController = TextEditingController();
   String? department;
   String? designation;
+  File? photo;
+  final ImagePicker picker = ImagePicker();
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
 
   Future<void> setDob(BuildContext context) async {
     final DateTime currentDate = DateTime.now();
@@ -176,6 +76,7 @@ class AddEmployeeProvider with ChangeNotifier {
         'city': cityController.text,
         'department': department,
         'designation': designation,
+        'photoUrl': url
       });
       SnackBarUtils.showMessage('Employee added successfully!');
     } catch (e) {
@@ -185,47 +86,16 @@ class AddEmployeeProvider with ChangeNotifier {
     notifyListeners();
     clearForm();
   }
-  // Future<void> addEmployee() async {
-  //   final docRef = FirebaseFirestore.instance.collection('employees').doc();
-  //   final employee = EmployeeModel(
-  //     id: docRef.id,
-  //     name: nameController.text,
-  //     email: emailController.text,
-  //     phone: phoneController.text,
-  //     address: addressController.text,
-  //     dob: DateTime.parse(dobController.text),
-  //     joiningDate: DateTime.parse(joiningDateController.text),
-  //     country: countryController.text,
-  //     state: stateController.text,
-  //     city: cityController.text,
-  //     department: department!,
-  //     designation: designation!,
-  //   );
 
-  //   await docRef.set(employee.toJson());
-  //   notifyListeners();
-  // }
   Future<EmployeeModel?> getEmployee(String employeeId) async {
     final CollectionReference employeesCollection =
         FirebaseFirestore.instance.collection('employees');
     try {
       DocumentSnapshot doc = await employeesCollection.doc(employeeId).get();
-
       if (doc.exists) {
         var employee =
             EmployeeModel.fromJson(doc.data() as Map<String, dynamic>);
-        nameController.text = employee.name;
-        emailController.text = employee.email;
-        phoneController.text = employee.phone;
-        addressController.text = employee.address;
-        dobController.text = employee.dob.toString();
-        joiningDateController.text = employee.joiningDate.toString();
-        countryController.text = employee.country;
-        cityController.text = employee.city;
-        stateController.text = employee.state;
-        department = employee.department;
-        designation = employee.designation;
-        notifyListeners();
+        populateForm(employee);
         return employee;
       } else {
         log('Employee not found');
@@ -235,6 +105,22 @@ class AddEmployeeProvider with ChangeNotifier {
       log('Error fetching employee: $e');
       return null;
     }
+  }
+
+  void populateForm(EmployeeModel employee) {
+    nameController.text = employee.name;
+    emailController.text = employee.email;
+    phoneController.text = employee.phone;
+    addressController.text = employee.address;
+    dobController.text = employee.dob.toString();
+    joiningDateController.text = employee.joiningDate.toString();
+    countryController.text = employee.country;
+    cityController.text = employee.city;
+    stateController.text = employee.state;
+    department = employee.department;
+    designation = employee.designation;
+    
+    notifyListeners();
   }
 
   void clearForm() {
@@ -250,6 +136,7 @@ class AddEmployeeProvider with ChangeNotifier {
     cityController.clear();
     department = null;
     designation = null;
+    photo = null;
     notifyListeners();
   }
 
@@ -271,8 +158,10 @@ class AddEmployeeProvider with ChangeNotifier {
         'department': department,
         'designation': designation,
       });
+      SnackBarUtils.showMessage('Employee updated successfully!');
     } catch (e) {
-      SnackBarUtils.showMessage('failed');
+      log(e.toString());
+      SnackBarUtils.showMessage('Failed to update employee: ${e.toString()}');
     }
     notifyListeners();
   }
@@ -283,9 +172,77 @@ class AddEmployeeProvider with ChangeNotifier {
           .collection('Employee')
           .doc(documentId)
           .delete();
+      SnackBarUtils.showMessage('Employee deleted successfully!');
     } catch (e) {
       log(e.toString());
-      SnackBarUtils.showMessage('deleting employee failed');
+      SnackBarUtils.showMessage('Deleting employee failed: ${e.toString()}');
     }
+    notifyListeners();
+  }
+
+  Future<void> pickImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      photo = File(pickedFile.path);
+      notifyListeners();
+    } else {
+      SnackBarUtils.showMessage('No image picked');
+    }
+  }
+
+  Future<void> pickImageFromCamera() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      photo = File(pickedFile.path);
+      notifyListeners();
+    } else {
+      SnackBarUtils.showMessage('No image picked');
+    }
+  }
+
+  Future<void> uploadImage() async {
+    if (photo == null) return;
+    try {
+      final fileName = basename(photo!.path);
+      final destination = 'images/$fileName';
+      final ref = firebase_storage.FirebaseStorage.instance.ref(destination);
+      Uint8List uint8list = await photo!.readAsBytes();
+      await ref.putData(uint8list);
+      final downloadUrl = await ref.getDownloadURL();
+      SnackBarUtils.showMessage('Image uploaded successfully: $downloadUrl');
+    } catch (e) {
+      log(e.toString());
+      SnackBarUtils.showMessage('Image upload failed: ${e.toString()}');
+    }
+  }
+
+  Future<void> showImagePickerOptions(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
+                onTap: () {
+                  pickImageFromGallery(); // Ensure this function returns void
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  pickImageFromCamera(); // Ensure this function returns void
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

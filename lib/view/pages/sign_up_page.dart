@@ -19,7 +19,7 @@ class SignUpPage extends StatelessWidget {
     AuthProvider authProvider = Provider.of(context);
 
     return Scaffold(
-      backgroundColor: Color(0XFFfafafaff),
+      backgroundColor: const Color(0XFFfafafaff),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -45,7 +45,7 @@ class SignUpPage extends StatelessWidget {
               child: TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.mail),
+                    prefixIcon: const Icon(Icons.mail),
                     filled: true,
                     fillColor: const Color(0XFFffffffff),
                     hintText: 'email',
