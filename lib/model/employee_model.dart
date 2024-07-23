@@ -17,6 +17,7 @@ class EmployeeModel with _$EmployeeModel{
     required String city,
     required String department,
     required String designation,
+    required String imageUrl,
   }) = _EmployeeModel;
   factory EmployeeModel.fromJson(Map<String, dynamic> json) =>
       _$EmployeeModelFromJson(json);

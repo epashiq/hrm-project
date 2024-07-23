@@ -47,9 +47,15 @@ class EmployeeDetailsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Center(
+                          Center(
                             child: CircleAvatar(
                               radius: 50,
+                              backgroundImage: data['imageUrl'] != null
+                                  ? NetworkImage(data['imageUrl'])
+                                  : null,
+                              child: data['imageUrl'] == null
+                                  ? const Icon(Icons.person, size: 50)
+                                  : null, // Display an icon if there is no image
                             ),
                           ),
                           Text(
@@ -145,7 +151,7 @@ class EmployeeDetailsPage extends StatelessWidget {
                                           ),
                                         ));
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   )),

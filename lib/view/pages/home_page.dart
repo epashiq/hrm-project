@@ -3,6 +3,7 @@ import 'package:hrm_project/view/pages/add_employee_page.dart';
 import 'package:hrm_project/view/pages/add_holiday_page.dart';
 import 'package:hrm_project/view/pages/apply_leave_page.dart';
 import 'package:hrm_project/view/pages/attendence_page.dart';
+import 'package:hrm_project/view/pages/map_page.dart';
 import 'package:hrm_project/view/widgets/card_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,15 +26,24 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 30,
               ),
-              const Row(
+              Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 20,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text('data')
+                  const Text('data'),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MapApp(),
+                            ));
+                      },
+                      icon: const Icon(Icons.location_city))
                 ],
               ),
               const SizedBox(

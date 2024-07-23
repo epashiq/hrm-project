@@ -32,6 +32,7 @@ mixin _$EmployeeModel {
   String get city => throw _privateConstructorUsedError;
   String get department => throw _privateConstructorUsedError;
   String get designation => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +58,8 @@ abstract class $EmployeeModelCopyWith<$Res> {
       String state,
       String city,
       String department,
-      String designation});
+      String designation,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -85,6 +87,7 @@ class _$EmployeeModelCopyWithImpl<$Res, $Val extends EmployeeModel>
     Object? city = null,
     Object? department = null,
     Object? designation = null,
+    Object? imageUrl = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -135,6 +138,10 @@ class _$EmployeeModelCopyWithImpl<$Res, $Val extends EmployeeModel>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -159,7 +166,8 @@ abstract class _$$EmployeeModelImplCopyWith<$Res>
       String state,
       String city,
       String department,
-      String designation});
+      String designation,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -185,6 +193,7 @@ class __$$EmployeeModelImplCopyWithImpl<$Res>
     Object? city = null,
     Object? department = null,
     Object? designation = null,
+    Object? imageUrl = null,
   }) {
     return _then(_$EmployeeModelImpl(
       id: null == id
@@ -235,6 +244,10 @@ class __$$EmployeeModelImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -254,7 +267,8 @@ class _$EmployeeModelImpl implements _EmployeeModel {
       required this.state,
       required this.city,
       required this.department,
-      required this.designation});
+      required this.designation,
+      required this.imageUrl});
 
   factory _$EmployeeModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$EmployeeModelImplFromJson(json);
@@ -283,10 +297,12 @@ class _$EmployeeModelImpl implements _EmployeeModel {
   final String department;
   @override
   final String designation;
+  @override
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'EmployeeModel(id: $id, name: $name, email: $email, phone: $phone, address: $address, dob: $dob, joiningDate: $joiningDate, country: $country, state: $state, city: $city, department: $department, designation: $designation)';
+    return 'EmployeeModel(id: $id, name: $name, email: $email, phone: $phone, address: $address, dob: $dob, joiningDate: $joiningDate, country: $country, state: $state, city: $city, department: $department, designation: $designation, imageUrl: $imageUrl)';
   }
 
   @override
@@ -308,13 +324,28 @@ class _$EmployeeModelImpl implements _EmployeeModel {
             (identical(other.department, department) ||
                 other.department == department) &&
             (identical(other.designation, designation) ||
-                other.designation == designation));
+                other.designation == designation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, phone, address,
-      dob, joiningDate, country, state, city, department, designation);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      email,
+      phone,
+      address,
+      dob,
+      joiningDate,
+      country,
+      state,
+      city,
+      department,
+      designation,
+      imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -343,7 +374,8 @@ abstract class _EmployeeModel implements EmployeeModel {
       required final String state,
       required final String city,
       required final String department,
-      required final String designation}) = _$EmployeeModelImpl;
+      required final String designation,
+      required final String imageUrl}) = _$EmployeeModelImpl;
 
   factory _EmployeeModel.fromJson(Map<String, dynamic> json) =
       _$EmployeeModelImpl.fromJson;
@@ -372,6 +404,8 @@ abstract class _EmployeeModel implements EmployeeModel {
   String get department;
   @override
   String get designation;
+  @override
+  String get imageUrl;
   @override
   @JsonKey(ignore: true)
   _$$EmployeeModelImplCopyWith<_$EmployeeModelImpl> get copyWith =>

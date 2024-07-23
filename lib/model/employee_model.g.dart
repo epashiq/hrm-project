@@ -20,6 +20,7 @@ _$EmployeeModelImpl _$$EmployeeModelImplFromJson(Map<String, dynamic> json) =>
       city: json['city'] as String,
       department: json['department'] as String,
       designation: json['designation'] as String,
+      imageUrl: json['imageUrl'] as String,
     );
 
 Map<String, dynamic> _$$EmployeeModelImplToJson(_$EmployeeModelImpl instance) =>
@@ -36,4 +37,5 @@ Map<String, dynamic> _$$EmployeeModelImplToJson(_$EmployeeModelImpl instance) =>
       'city': instance.city,
       'department': instance.department,
       'designation': instance.designation,
+      'imageUrl': instance.imageUrl,
     };

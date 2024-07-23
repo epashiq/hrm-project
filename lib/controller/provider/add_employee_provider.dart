@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hrm_project/model/employee_model.dart';
 import 'package:hrm_project/view/utils/snackbar_utils.dart';
@@ -15,14 +17,15 @@ class AddEmployeeProvider with ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
+  final dobController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController cityController = TextEditingController();
-  TextEditingController joiningDateController = TextEditingController();
+  final joiningDateController = TextEditingController();
   String? department;
   String? designation;
   File? photo;
+  String? imageUrl;
   final ImagePicker picker = ImagePicker();
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -59,8 +62,48 @@ class AddEmployeeProvider with ChangeNotifier {
     return '${date.day}-${date.month}-${date.year}';
   }
 
-  Future<void> addEmployee() async {
+  // Future<void> addEmployee() async {
+  //   try {
+  //     String? imageUrl = await uploadImage();
+
+  //     if (imageUrl == null) {
+  //       throw Exception('Image upload failed');
+  //     }
+
+  //     final employee = {
+  //       'name': nameController.text,
+  //       'email': emailController.text,
+  //       'phone': phoneController.text,
+  //       'address': addressController.text,
+  //       'dob': dobController.text,
+  //       'joiningDate': joiningDateController.text,
+  //       'country': countryController.text,
+  //       'state': stateController.text,
+  //       'city': cityController.text,
+  //       'department': department ?? '',
+  //       'designation': designation ?? '',
+  //       'imageUrl': imageUrl,
+  //     };
+
+  //     final docRef =
+  //         await FirebaseFirestore.instance.collection('Employee').add(employee);
+  //     await docRef.update({'id': docRef.id});
+
+  //     SnackBarUtils.showMessage('Employee added successfully!');
+  //     clearForm();
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e.toString());
+  //     }
+  //     SnackBarUtils.showMessage('Failed to add employee: ${e.toString()}');
+  //   } finally {
+  //     notifyListeners();
+  //   }
+  // }
+
+  Future addEmployee() async {
     try {
+      String? imageUrl = await uploadImage();
       await FirebaseFirestore.instance
           .collection('Employee')
           .doc(emailController.text)
@@ -76,7 +119,7 @@ class AddEmployeeProvider with ChangeNotifier {
         'city': cityController.text,
         'department': department,
         'designation': designation,
-        'photoUrl': url
+        'photoUrl': imageUrl,
       });
       SnackBarUtils.showMessage('Employee added successfully!');
     } catch (e) {
@@ -89,7 +132,7 @@ class AddEmployeeProvider with ChangeNotifier {
 
   Future<EmployeeModel?> getEmployee(String employeeId) async {
     final CollectionReference employeesCollection =
-        FirebaseFirestore.instance.collection('employees');
+        FirebaseFirestore.instance.collection('Employee');
     try {
       DocumentSnapshot doc = await employeesCollection.doc(employeeId).get();
       if (doc.exists) {
@@ -119,7 +162,8 @@ class AddEmployeeProvider with ChangeNotifier {
     stateController.text = employee.state;
     department = employee.department;
     designation = employee.designation;
-    
+    imageUrl = employee.imageUrl;
+
     notifyListeners();
   }
 
@@ -200,8 +244,8 @@ class AddEmployeeProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadImage() async {
-    if (photo == null) return;
+  Future<String?> uploadImage() async {
+    if (photo == null) return null;
     try {
       final fileName = basename(photo!.path);
       final destination = 'images/$fileName';
@@ -210,10 +254,34 @@ class AddEmployeeProvider with ChangeNotifier {
       await ref.putData(uint8list);
       final downloadUrl = await ref.getDownloadURL();
       SnackBarUtils.showMessage('Image uploaded successfully: $downloadUrl');
+      return downloadUrl; // Corrected this line
     } catch (e) {
       log(e.toString());
       SnackBarUtils.showMessage('Image upload failed: ${e.toString()}');
+      return null; // Added return statement for failure case
     }
+  }
+
+  Future<String?> getImageUrl() async {
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('Employee image')
+          .child('${emailController.text}.jpg');
+      final imageUrl = storageRef.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      SnackBarUtils.showMessage('cannot get employee images!!');
+      return null;
+    }
+  }
+
+  Future<void> saveImageUrlToFirestore(
+      String employeeId, String imageUrl) async {
+    await FirebaseFirestore.instance
+        .collection('Employee')
+        .doc(employeeId)
+        .update({'photo Url': imageUrl});
   }
 
   Future<void> showImagePickerOptions(BuildContext context) async {

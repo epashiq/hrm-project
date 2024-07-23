@@ -41,9 +41,12 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   radius: 50,
                   child: addEmployeeProvider.photo != null
                       ? ClipRRect(
-                          child: Image.file(addEmployeeProvider.photo!),
+                          child: Image.file(
+                            addEmployeeProvider.photo!,
+                            fit: BoxFit.cover,
+                          ),
                         )
-                      : Container(
+                      : const SizedBox(
                           child: Icon(Icons.camera),
                         ),
                 ),
@@ -143,7 +146,14 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                 btnText: 'Add',
                 onTap: () {
                   addEmployeeProvider.uploadImage();
-                  addEmployeeProvider.addEmployee();
+                  // String? imageUrl = await addEmployeeProvider.getImageUrl();
+
+                  // if (imageUrl != null) {
+                  //   String employeeId = await addEmployeeProvider.addEmployee();
+                  //   await addEmployeeProvider.saveImageUrlToFirestore(
+                  //       employeeId, imageUrl);
+                  // }
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
