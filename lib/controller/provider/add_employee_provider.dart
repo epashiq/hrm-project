@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -101,9 +100,44 @@ class AddEmployeeProvider with ChangeNotifier {
   //   }
   // }
 
+  // Future addEmployee() async {
+  //   try {
+  //     String? imageUrl = await uploadImage();
+  //     await FirebaseFirestore.instance
+  //         .collection('Employee')
+  //         .doc(emailController.text)
+  //         .set({
+  //       'name': nameController.text,
+  //       'email': emailController.text,
+  //       'phone': phoneController.text,
+  //       'address': addressController.text,
+  //       'Date Of Birth': dobController.text,
+  //       'joiningDate': joiningDateController.text,
+  //       'country': countryController.text,
+  //       'state': stateController.text,
+  //       'city': cityController.text,
+  //       'department': department,
+  //       'designation': designation,
+  //       'photoUrl': imageUrl,
+  //     });
+  //     SnackBarUtils.showMessage('Employee added successfully!');
+  //   } catch (e) {
+  //     log(e.toString());
+  //     SnackBarUtils.showMessage('Failed to add employee: ${e.toString()}');
+  //   }
+  //   notifyListeners();
+  //   clearForm();
+  // }
+
   Future addEmployee() async {
     try {
       String? imageUrl = await uploadImage();
+
+      if (imageUrl == null) {
+        SnackBarUtils.showMessage('Failed to upload image. Please try again.');
+        return;
+      }
+
       await FirebaseFirestore.instance
           .collection('Employee')
           .doc(emailController.text)
@@ -119,15 +153,17 @@ class AddEmployeeProvider with ChangeNotifier {
         'city': cityController.text,
         'department': department,
         'designation': designation,
-        'photoUrl': imageUrl,
+        'photoUrl': imageUrl, // Set the photo URL here
       });
+
       SnackBarUtils.showMessage('Employee added successfully!');
     } catch (e) {
       log(e.toString());
       SnackBarUtils.showMessage('Failed to add employee: ${e.toString()}');
+    } finally {
+      notifyListeners();
+      clearForm();
     }
-    notifyListeners();
-    clearForm();
   }
 
   Future<EmployeeModel?> getEmployee(String employeeId) async {
@@ -184,30 +220,58 @@ class AddEmployeeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> editEmployee() async {
+  Future<void> editEmployee(
+      String documentId,
+      String newName,
+      String newEmail,
+      String newPhone,
+      String newAddress,
+      String newDob,
+      String newJoiningDate,
+      String newCountry,
+      String newState,
+      String newCity,
+      String? newDepartment,
+      String? newDesignation) async {
+    // Validate inputs
+    if (newName.isEmpty ||
+        newEmail.isEmpty ||
+        newPhone.isEmpty ||
+        newAddress.isEmpty ||
+        newDob.isEmpty ||
+        newJoiningDate.isEmpty ||
+        newCountry.isEmpty ||
+        newState.isEmpty ||
+        newCity.isEmpty) {
+      log('Invalid input data');
+      SnackBarUtils.showMessage('Please fill in all fields.');
+      return; // Exit early if validation fails
+    }
+
     try {
       await FirebaseFirestore.instance
-          .collection('Employee')
-          .doc(emailController.text)
+          .collection('Employee') // Collection name
+          .doc(documentId) // Use document ID passed as a parameter
           .update({
-        'name': nameController.text,
-        'email': emailController.text,
-        'phone': phoneController.text,
-        'address': addressController.text,
-        'Date Of Birth': dobController.text,
-        'joiningDate': joiningDateController.text,
-        'country': countryController.text,
-        'state': stateController.text,
-        'city': cityController.text,
+        'name': newName,
+        'email': newEmail,
+        'phone': newPhone,
+        'address': newAddress,
+        'Date Of Birth': newDob,
+        'joiningDate': newJoiningDate,
+        'country': newCountry,
+        'state': newState,
+        'city': newCity,
         'department': department,
         'designation': designation,
       });
+
+      log('Employee updated successfully'); // Log success message
       SnackBarUtils.showMessage('Employee updated successfully!');
-    } catch (e) {
-      log(e.toString());
-      SnackBarUtils.showMessage('Failed to update employee: ${e.toString()}');
+    } catch (error) {
+      log('Failed to update employee: $error'); // Log error message if the update fails
+      SnackBarUtils.showMessage('Failed to update employee: $error');
     }
-    notifyListeners();
   }
 
   Future<void> deleteEmployee(BuildContext context, String documentId) async {
